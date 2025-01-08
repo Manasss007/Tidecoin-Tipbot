@@ -1,6 +1,6 @@
 import utils from './utils.cjs'; // Import the entire module as 'utils'
 import {EmbedBuilder } from 'discord.js';
-const { getNewAddress, sendTidecoin, checkBalance, getPrivateKey, estimateFee} = utils;
+const { getNewAddress, sendTidecoin, checkBalance, getPrivateKey} = utils;
 import { connection } from './mysql-connection.js';
 
 
