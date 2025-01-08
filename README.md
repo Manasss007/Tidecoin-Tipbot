@@ -26,19 +26,9 @@ npm install -i
 3. **Copy the bot token, application id and public key** and add it to your `.env` file. (The application id and public key are found in **General Information** and the token is found in **Bot**. Warning: Keep your token somewhere safe, because you will be able to see it **only once.**
 4.
 
-## Ngrok Setup
+## MySQL Setup 
 
-1. Sign up in [ngrok](https://ngrok.com/) 
-2. Follow the installation guide of ngrok:
-3. run ngrok on port 3000
-    ```bash
-    ngrok http 3000
-    ```
-4: copy the "forwarding". it should look something like this: https://12ab-3c4d-56ef-4de3-1-6ce2-7e5a-7547-26d9.ngrok-free.app (free app, if you are using the free version)
-
-# MySQL Setup 
-
-## Step 1: Install MySQL
+#### Step 1: Install MySQL
 1. Open your terminal.
 2. Update your package list and install MySQL server:
    ```bash
@@ -53,7 +43,7 @@ npm install -i
 
 ---
 
-## Step 2: Log In to MySQL
+#### Step 2: Log In to MySQL
 1. Start the MySQL service:
    ```bash
    sudo systemctl start mysql
@@ -66,7 +56,7 @@ npm install -i
 
 ---
 
-## Step 3: Create the Database
+#### Step 3: Create the Database
 1. Create a new database named `discord_tipbot`:
    ```sql
    CREATE DATABASE discord_tipbot;
@@ -78,7 +68,7 @@ npm install -i
 
 ---
 
-## Step 4: Create the Table
+#### Step 4: Create the Table
 1. Switch to the `discord_tipbot` database:
    ```sql
    USE discord_tipbot;
@@ -104,6 +94,17 @@ npm install -i
    ```sql
    DESCRIBE user_addresses;
    
+
+## Ngrok Setup
+
+1. Sign up in [ngrok](https://ngrok.com/) 
+2. Follow the installation guide of ngrok:
+3. run ngrok on port 3000
+    ```bash
+    ngrok http 3000
+    ```
+4: copy the "forwarding". it should look something like this: https://12ab-3c4d-56ef-4de3-1-6ce2-7e5a-7547-26d9.ngrok-free.app (free app, if you are using the free version)
+
 
 ## Wallet Setup
 1. Download your wallet.dat file
@@ -131,7 +132,7 @@ npm install -i
 
 - Each transaction requires a fee for **the transaction**
 
-## Donations
+### Donations
 
 Donations TDC: TRhvQkHW429zZsnuNDvFuctQWPN6iWXsTa
 
