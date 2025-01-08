@@ -5,18 +5,9 @@ A Discord bot that interacts with the Tidecoin blockchain. The bot allows users 
 
 ## Installation Guide
 
-### Prerequisites
-
-Before you start, ensure you have the following installed:
-
-- [Node.js](https://nodejs.org/) (v14 or higher)
-- [MySQL](https://www.mysql.com/) (for database storage)
-- [ngrok](https://ngrok.com/) (for creating a public URL to the bot)
-
-The necessary dependencies are already included in the `node_modules` directory, so you don't need to worry about installing them manually. However, if you want to install them from scratch, run:
 
 ```bash
-npm install
+npm install -i
 ```
 
 ### Steps to Install
