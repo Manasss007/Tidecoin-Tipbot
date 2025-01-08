@@ -27,24 +27,6 @@ npm install
     cd Tidecoin-Tipbot
     ```
 
-2. **Set up the `.env` file**:
-    Create a `.env` file in the root directory of the project and add the following configuration:
-    ```bash
-    APP_ID=
-    DISCORD_TOKEN=
-    PUBLIC_KEY=
-
-    TIDECOIN_RPC_USER=
-    TIDECOIN_RPC_PASS=
-    TIDECOIN_RPC_HOST=127.0.0.1
-    TIDECOIN_RPC_PORT=9332
-    
-    MYSQL_USER=
-    MYSQL_PASS=
-    MYSQL_HOST=127.0.0.1
-    MYSQL_DATABASE=
-    ```
-
 2. **Run the bot**:
     ```bash
     node app.js
@@ -54,14 +36,12 @@ npm install
 
 1. Go to the [Discord Developer Portal](https://discord.com/developers/applications).
 2. **Create a new application** and name it.
-3. Under the "Bot" tab, click **Add Bot**.
-4. **Copy the bot token** and add it to your `.env` file as `DISCORD_TOKEN`.
-5. Under the "OAuth2" tab, select the `bot` scope and assign necessary permissions like `SEND_MESSAGES`, `MANAGE_MESSAGES`, etc.
-6. Generate the **OAuth2 invite URL** and use it to invite the bot to your server.
+3. **Copy the bot token, application id and public key** and add it to your `.env` file. (The application id and public key are found in **General Information** and the token is found in **Bot**. Warning: Keep your token somewhere safe, because you will be able to see it **only once.**
+4.
 
 ## Ngrok Setup
 
-1. Install [ngrok](https://ngrok.com/download) on your system.
+1. Sign up in [ngrok](https://ngrok.com/) 
 2. Run ngrok to create a public URL for your local server:
     ```bash
     ngrok http 3000
@@ -73,6 +53,8 @@ npm install
 
 - `/newaddress`: Generate a new Tidecoin address.
 - `/balance`: Check the balance of your Tidecoin address.
+- `/tip`: Tip another user.
+- `/withdraw`: Withdraw to your wallet.
 
 ### Transaction Fees
 
@@ -92,4 +74,5 @@ TIDECOIN_RPC_PORT=9332
 ```
 
 Donations TDC: TRhvQkHW429zZsnuNDvFuctQWPN6iWXsTa
+
 
