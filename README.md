@@ -24,7 +24,8 @@ npm install -i
 1. Go to the [Discord Developer Portal](https://discord.com/developers/applications).
 2. **Create a new application** and name it.
 3. **Copy the bot token, application id and public key** and add it to your `.env` file. (The application id and public key are found in **General Information** and the token is found in **Bot**. Warning: Keep your token somewhere safe, because you will be able to see it **only once.**
-4.
+4. Go to **Installation** and add **bot** to Guild install and for permissions select **Send messages**
+5. Now copy the **Installation link** and add it to your server.
 
 ## MySQL Setup 
 
