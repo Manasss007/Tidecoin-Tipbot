@@ -1,12 +1,12 @@
 const { RPCClient } = require("rpc-bitcoin"); // RPC
-wallet = "" // name of your wallet file, example: wallet.dat
+wallet = process.env.TIDECOIN_WALLET // name of your wallet file, example: wallet.dat
 
 // Configure Tidecoin RPC client
 const client = new RPCClient({
-    host: '127.0.0.1', // Replace with your Tidecoin RPC host
-    port: 9332, // TDC Port
-    user: '', // TDC rpc user
-    pass: '', // TDC rpc pass
+    host: process.env.TIDECOIN_RPC_HOST, // Replace with your Tidecoin RPC host
+    port: process.env.TIDECOIN_RPC_PORT, // TDC Port
+    user: process.env.TIDECOIN_RPC_USER, // TDC rpc user
+    pass: process.env.TIDECOIN_RPC_PASS, // TDC rpc pass
     wallet: wallet
 });
 
