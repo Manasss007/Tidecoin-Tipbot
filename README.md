@@ -1,0 +1,1 @@
+# Tidecoin-Tipbot
