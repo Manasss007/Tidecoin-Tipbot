@@ -140,8 +140,8 @@ npm install "package.json"
 - Each transaction requires a fee for **the transaction**
 
 ### Donations
-
-Donations TDC: TRhvQkHW429zZsnuNDvFuctQWPN6iWXsTa
+donations are always appreciated :)
+Donations TDC: `TRhvQkHW429zZsnuNDvFuctQWPN6iWXsTa`
 
 
 
