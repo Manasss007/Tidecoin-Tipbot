@@ -7,14 +7,3 @@ const connection = mysql.createConnection({
   database: process.env.MYSQL_DATABASE // Replace with your MySQL database name
 });
 
-// Test the connection
-connection.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err);
-    return;
-  }
-  console.log('Connected to MySQL successfully!');
-
-  // Close the connection after testing
-  connection.end();
-});
