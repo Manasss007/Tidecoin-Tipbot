@@ -146,3 +146,4 @@ const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
 
 const PORT = process.env.PORT || 3000; // Standard port
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
