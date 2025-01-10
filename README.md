@@ -139,8 +139,9 @@ npm install "package.json"
 
 - Each transaction requires a fee for **the transaction**
 
-### Donations
+## Donations
 donations are always appreciated :)
+
 Donations TDC: `TRhvQkHW429zZsnuNDvFuctQWPN6iWXsTa`
 
 
