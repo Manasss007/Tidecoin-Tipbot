@@ -1,5 +1,7 @@
 const { RPCClient } = require("rpc-bitcoin"); // RPC
-wallet = process.env.TIDECOIN_WALLET // name of your wallet file, example: wallet.dat
+const dotenv = require('dotenv'); // CommonJS require
+
+dotenv.config(); // Load environment variables
 
 // Configure Tidecoin RPC client
 const client = new RPCClient({
@@ -7,13 +9,12 @@ const client = new RPCClient({
     port: process.env.TIDECOIN_RPC_PORT, // TDC Port
     user: process.env.TIDECOIN_RPC_USER, // TDC rpc user
     pass: process.env.TIDECOIN_RPC_PASS, // TDC rpc pass
-    wallet: wallet
+    wallet: process.env.TIDECOIN_WALLET // Wallet filename
 });
 
 
 const checkBalance = async (address) => {
     try {
-        // Adjust the call to listunspent with parameters in the expected format
         const data = await client.listunspent({
             minconf: 1,
             maxconf: 9999999,
