@@ -16,7 +16,7 @@ A Discord bot that interacts with the Tidecoin blockchain. The bot allows users 
 
 2. **Install the needed modules & libraries**:
 ```bash
-npm install -i
+npm install "package.json"
 ```
 
 ## Discord Developer Portal Setup
