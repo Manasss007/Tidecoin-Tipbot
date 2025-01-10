@@ -121,7 +121,7 @@ npm install "package.json"
 
 ## Running the Bot
 
-1. Run your bot with `npm run start` in your terminal.
+1. Run your bot with `node app.js` in your terminal.
 2. Go back to Discord Developer Portal, go to General information and scroll down to **Interactions Endpoint URL**. Paste the "forwarding" and put "/interactions" at the end. It should look something like this: ``https://12ab-3c4d-56ef-4de3-1-6ce2-7e5a-7547-26d9.ngrok-free.app/interactions``.
 3. Run your tidecoin daemon.
 4. open a new terminal and load your wallet with ``./tidecoin-cli loadwallet "yourwalletname.dat" ``
