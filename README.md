@@ -94,6 +94,8 @@ npm install "package.json"
 4. View the table structure:
    ```sql
    DESCRIBE user_addresses;
+
+5. Add the password, host, user and the database name in the `.env` file.
    
 
 ## Ngrok Setup
@@ -110,6 +112,10 @@ npm install "package.json"
 ## Wallet Setup
 1. Download your wallet.dat file
 2. Go to your terminal and place your wallet in ~/.tidecoin/wallets (Linux) `` cd ~/.tidecoin/wallets``
+
+## Tidecoin.conf Setup
+1. Go to tidecoin.conf
+2. add the port, user, pass and wallet filename into `.env` file.
 
 
 
