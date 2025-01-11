@@ -2,6 +2,7 @@ const { RPCClient } = require("rpc-bitcoin"); // RPC
 const dotenv = require('dotenv'); // CommonJS require
 
 dotenv.config(); // Load environment variables
+wallet =  process.env.TIDECOIN_WALLET
 
 // Configure Tidecoin RPC client
 const client = new RPCClient({
@@ -9,7 +10,7 @@ const client = new RPCClient({
     port: process.env.TIDECOIN_RPC_PORT, // TDC Port
     user: process.env.TIDECOIN_RPC_USER, // TDC rpc user
     pass: process.env.TIDECOIN_RPC_PASS, // TDC rpc pass
-    wallet: process.env.TIDECOIN_WALLET // Wallet filename
+    wallet: wallet // Wallet filename
 });
 
 
