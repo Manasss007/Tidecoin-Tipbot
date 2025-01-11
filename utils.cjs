@@ -59,6 +59,63 @@ const getPrivateKey = async (address) => {
     }
 };
 
+ const estimateFee = async (fromAddress, toAddress, amount, privateKey) => {
+    try {
+        // Fetch unspent outputs for the 'fromAddress'
+        let data = await client.listunspent({
+            minconf: 1,
+            maxconf: 9999999,
+            addresses: [fromAddress],
+        });
+
+        if (!data || data.length === 0) {
+            throw new Error("No unspent outputs found for the given address.");
+        }
+
+        let totalInput = 0;
+        const inputs = [];
+        let selectedAmount = 0;
+
+        // Select UTXOs to accumulate the required amount
+        for (let i = 0; i < data.length; i++) {
+            const output = data[i];
+            totalInput += parseFloat(output.amount);
+            inputs.push({
+                txid: output.txid,
+                vout: output.vout,
+            });
+
+            selectedAmount += parseFloat(output.amount);
+
+            if (selectedAmount >= amount) {
+                break; // Stop once we've accumulated enough funds
+            }
+        }
+
+        // Create the raw transaction
+        const outputs = {};
+        outputs[toAddress] = amount.toFixed(8);
+
+        // Create a raw transaction without change
+        const rawTx = await client.createrawtransaction({inputs: inputs, outputs: outputs});
+        // Decode the raw transaction to estimate its vsize
+        const decodedTx = await client.decoderawtransaction({hexstring: rawTx, iswitness: true});
+
+        const vsize = decodedTx.vsize; // Get the virtual size of the transaction in bytes
+
+        // Convert vsize to kilobytes (KB)
+        const vsizeKB = vsize / 1000;
+
+        // Calculate the fee based on vsize in KB
+        const feeRatePerKB = 0.0001; // Fee rate in TDC per KB
+        const fee = vsizeKB * feeRatePerKB;
+
+        return fee;
+    } catch (err) {
+        console.error('Error estimating fee:', err);
+        throw new Error('Error estimating fee: ' + err.message);
+    }
+};
 const sendTidecoin = async (fromAddress, toAddress, amount, privateKey) => {
     try {
         if (typeof privateKey !== 'string') {
@@ -170,5 +227,6 @@ module.exports = {
     checkBalance,
     getNewAddress,
     sendTidecoin,
-    getPrivateKey
+    getPrivateKey,
+    estimateFee
 };
