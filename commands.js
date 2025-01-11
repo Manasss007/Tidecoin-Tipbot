@@ -1,7 +1,8 @@
 import utils from './utils.cjs'; // Import the entire module as 'utils'
 import {EmbedBuilder } from 'discord.js';
-const { getNewAddress, sendTidecoin, checkBalance, getPrivateKey} = utils;
+const { getNewAddress, sendTidecoin, checkBalance, getPrivateKey, estimateFee} = utils;
 import { connection } from './mysql-connection.js';
+
 
 
 export async function generateNewTidecoinAddress(interaction) {
@@ -12,7 +13,7 @@ export async function generateNewTidecoinAddress(interaction) {
             return {
                 type: 4,
                 data: {
-                    content: "Unable to retrieve your Discord user ID.",
+                    content: ":warning: Unable to retrieve your Discord user ID.",
                     flags: 64, // Makes the message ephemeral
                 },
             };
@@ -27,7 +28,7 @@ export async function generateNewTidecoinAddress(interaction) {
         if (rows.length > 0 && rows[0].tidecoin_address) {
             const alreadyHasAddressEmbed = new EmbedBuilder()
                 .setColor(0xFFA500) // Orange color
-                .setTitle("Tidecoin Address Already Exists")
+                .setTitle(":warning: Tidecoin Address Already Exists")
                 .setDescription("You already have a Tidecoin address.")
                 .setTimestamp();
 
@@ -73,7 +74,7 @@ export async function generateNewTidecoinAddress(interaction) {
 
         const errorEmbed = new EmbedBuilder()
             .setColor(0xFFA500) // Orange color
-            .setTitle("Error")
+            .setTitle(":warning: Error")
             .setDescription("Error generating new address.")
             .setTimestamp();
 
@@ -95,7 +96,7 @@ export const checkBalanceCommand = async (interaction) => {
         return {
             type: 4,
             data: {
-                content: "An error occurred while processing your request.",
+                content: ":warning: An error occurred while processing your request.",
                 flags: 64, // Makes the message ephemeral
             },
         };
@@ -110,7 +111,7 @@ export const checkBalanceCommand = async (interaction) => {
     if (rows.length === 0 || !rows[0].tidecoin_address) {
         const noAddressEmbed = new EmbedBuilder()
             .setColor(0xFFA500) 
-            .setTitle("No Tidecoin Address Found")
+            .setTitle(":warning: No Tidecoin Address Found")
             .setDescription("You don't have a Tidecoin address yet. Please generate one first. (/newaddress)")
             .setTimestamp();
 
@@ -155,7 +156,7 @@ export const checkBalanceCommand = async (interaction) => {
 
         const errorEmbed = new EmbedBuilder()
             .setColor(0xFFA500) // Orange color for error
-            .setTitle("Error")
+            .setTitle(":warning: Error")
             .setDescription("Error fetching balance. Please try again later.")
             .setTimestamp();
 
@@ -170,20 +171,21 @@ export const checkBalanceCommand = async (interaction) => {
  };
 
  export const tipUser = async (interaction) => {
-    const userId = interaction.data.options[0].value; // Receiver's Discord ID
+    const TipperId = interaction.member?.user?.id || interaction.user?.id;
+    const ReceiverId = interaction.data.options[0].value; // Receiver's Discord ID
     const amountOption = interaction.data.options.find(opt => opt.name === 'amount');
     const allOption = interaction.data.options.find(opt => opt.name === 'all')?.value;
 
     try {
         // Fetch receiver's address from the database
         const [receiverAddressResult] = await connection.promise().query(
-            `SELECT tidecoin_address FROM user_addresses WHERE discord_user_id = ?`, [userId]
+            `SELECT tidecoin_address FROM user_addresses WHERE discord_user_id = ?`, [ReceiverId]
         );
 
         if (!receiverAddressResult.length) {
             const noAddressEmbed = new EmbedBuilder()
                 .setColor(0xFFA500) // Orange color
-                .setTitle("Recipient Address Not Found")
+                .setTitle(":warning: Recipient Address Not Found")
                 .setDescription("The recipient must have a registered Tidecoin address.")
                 .setTimestamp();
 
@@ -204,7 +206,7 @@ export const checkBalanceCommand = async (interaction) => {
         if (!tipperAddressResult.length) {
             const noAddressEmbed = new EmbedBuilder()
                 .setColor(0xFFA500) // Orange color
-                .setTitle("No Tidecoin Address Found")
+                .setTitle(":warning: No Tidecoin Address Found")
                 .setDescription("You must have a registered Tidecoin address to send tips.")
                 .setTimestamp();
 
@@ -224,7 +226,7 @@ export const checkBalanceCommand = async (interaction) => {
         if (!receiverAddress || !tipperAddress) {
             const invalidAddressEmbed = new EmbedBuilder()
                 .setColor(0xFFA500) // Orange color
-                .setTitle("Invalid Address")
+                .setTitle(":warning: Invalid Address")
                 .setDescription("Invalid sender or recipient address.")
                 .setTimestamp();
 
@@ -242,7 +244,7 @@ export const checkBalanceCommand = async (interaction) => {
         if (!privateKey) {
             const noPrivateKeyEmbed = new EmbedBuilder()
                 .setColor(0xFFA500) // Orange color
-                .setTitle("Private Key Not Found")
+                .setTitle(":warning: Private Key Not Found")
                 .setDescription("Could not retrieve the private key for the sender address.")
                 .setTimestamp();
 
@@ -265,7 +267,7 @@ export const checkBalanceCommand = async (interaction) => {
                 // Both "amount" and "all" options provided
                 const errorEmbed = new EmbedBuilder()
                     .setColor(0xFFA500) // Orange color
-                    .setTitle("Invalid Options")
+                    .setTitle(":warning: Invalid Options")
                     .setDescription("You cannot use both 'amount' and 'all' options together.")
                     .setTimestamp();
 
@@ -285,7 +287,7 @@ export const checkBalanceCommand = async (interaction) => {
             if (finalAmount <= 0) {
                 const noFundsEmbed = new EmbedBuilder()
                     .setColor(0xFFA500) // Orange color
-                    .setTitle("Insufficient Funds")
+                    .setTitle(":warning: Insufficient Funds")
                     .setDescription("You don't have enough funds to cover the transaction fee.")
                     .setTimestamp();
 
@@ -304,7 +306,7 @@ export const checkBalanceCommand = async (interaction) => {
             if (finalAmount > balance) {
                 const insufficientFundsEmbed = new EmbedBuilder()
                     .setColor(0xFFA500) // Orange color
-                    .setTitle("Insufficient Funds")
+                    .setTitle(":warning: Insufficient Funds")
                     .setDescription("Insufficient funds to tip that amount.")
                     .setTimestamp();
 
@@ -320,7 +322,7 @@ export const checkBalanceCommand = async (interaction) => {
             // Neither "amount" nor "all" option provided
             const errorEmbed = new EmbedBuilder()
                 .setColor(0xFFA500) // Orange color
-                .setTitle("Invalid Options")
+                .setTitle(":warning: Invalid Options")
                 .setDescription("Please provide either an amount or use the 'all' option.")
                 .setTimestamp();
 
@@ -340,7 +342,7 @@ export const checkBalanceCommand = async (interaction) => {
         return {
             type: 4,
             data: {
-                content: `Successfully tipped <@${userId}> ${finalAmount} Tidecoin! Transaction ID: ${txId}`,
+                content: `<@${TipperId}> sent <@${ReceiverId}> **${finalAmount} TDC.**`,
             },
         };
     } catch (err) {
@@ -353,7 +355,7 @@ export const checkBalanceCommand = async (interaction) => {
 
         const errorEmbed = new EmbedBuilder()
             .setColor(0xFFA500) // Orange color
-            .setTitle("Error")
+            .setTitle(":warning: Error")
             .setDescription(errorMessage)
             .setTimestamp();
 
@@ -383,7 +385,7 @@ export const withdraw = async (interaction) => {
         if (!rows.length || !rows[0].tidecoin_address) {
             const noAddressEmbed = new EmbedBuilder()
             .setColor(0xFFA500) 
-            .setTitle("No Tidecoin Address Found")
+            .setTitle(":warning: No Tidecoin Address Found")
             .setDescription("You don't have a Tidecoin address yet. Please generate one first. (/newaddress)")
             .setTimestamp();
 
@@ -407,7 +409,7 @@ export const withdraw = async (interaction) => {
                 // Both "amount" and "all" options provided
                 const errorEmbed = new EmbedBuilder()
                     .setColor(0xFFA500)
-                    .setTitle("Invalid Options")
+                    .setTitle(":warning: Invalid Options")
                     .setDescription("You cannot use both 'amount' and 'all' options together.")
                     .setTimestamp();
                     
@@ -429,7 +431,7 @@ export const withdraw = async (interaction) => {
                 // Not enough funds to cover fee
                 const noFundsEmbed = new EmbedBuilder()
                     .setColor(0xFFA500)
-                    .setTitle("Insufficient Funds")
+                    .setTitle(":warning: Insufficient Funds")
                     .setDescription("You don't have enough funds to cover the transaction fee.")
                     .setTimestamp();
 
@@ -447,7 +449,7 @@ export const withdraw = async (interaction) => {
                 // Insufficient funds for the specified amount
                 const insufficientFundsEmbed = new EmbedBuilder()
                     .setColor(0xFFA500)
-                    .setTitle("Insufficient Funds")
+                    .setTitle(":warning: Insufficient Funds")
                     .setDescription("Insufficient funds for the requested withdrawal amount.")
                     .setTimestamp();
 
@@ -468,7 +470,7 @@ export const withdraw = async (interaction) => {
                 // Not enough funds to cover the amount and fee
                 const insufficientFundsEmbed = new EmbedBuilder()
                     .setColor(0xFFA500)
-                    .setTitle("Insufficient Funds")
+                    .setTitle(":warning: Insufficient Funds")
                     .setDescription("Insufficient funds to cover the withdrawal amount and fee.")
                     .setTimestamp();
 
@@ -484,7 +486,7 @@ export const withdraw = async (interaction) => {
             // Neither "amount" nor "all" option provided
             const errorEmbed = new EmbedBuilder()
                 .setColor(0xFFA500)
-                .setTitle("Invalid Options")
+                .setTitle(":warning: Invalid Options")
                 .setDescription("Please provide either an 'amount' or use the 'all' option.")
                 .setTimestamp();
 
@@ -522,7 +524,7 @@ export const withdraw = async (interaction) => {
 
         const errorEmbed = new EmbedBuilder()
             .setColor(0xFFA500)
-            .setTitle("Error")
+            .setTitle(":warning: Error")
             .setDescription("An error occurred while processing your withdrawal. Please try again later.")
             .setTimestamp();
 
@@ -544,7 +546,7 @@ export const deposit = async (interaction) => {
             return {
                 type: 4,
                 data: {
-                    content: "Unable to retrieve your Discord user ID.",
+                    content: ":warning: Unable to retrieve your Discord user ID.",
                     flags: 64, // Makes the message ephemeral
                 },
             };
@@ -577,7 +579,7 @@ export const deposit = async (interaction) => {
             // User has no registered address, prompt them to generate one
             const noAddressEmbed = new EmbedBuilder()
                 .setColor(0xFFA500) // Orange color
-                .setTitle("No Tidecoin Address Found")
+                .setTitle(":warning: No Tidecoin Address Found")
                 .setDescription("You don't have a Tidecoin address yet. Please generate one first by using the `/newaddress` command.")
                 .setTimestamp();
 
@@ -595,7 +597,7 @@ export const deposit = async (interaction) => {
 
         const errorEmbed = new EmbedBuilder()
             .setColor(0xFFA500) // Orange color
-            .setTitle("Error")
+            .setTitle(":warning: Error")
             .setDescription("An error occurred while fetching your Tidecoin address. Please try again later.")
             .setTimestamp();
 
@@ -608,4 +610,3 @@ export const deposit = async (interaction) => {
         };
     }
  };
-
