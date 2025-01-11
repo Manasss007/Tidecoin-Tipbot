@@ -128,12 +128,18 @@ npm install "package.json"
 
 ## Usage
 
-### Available Commands
+### Available Features
 
 - `/newaddress`: Generate a new Tidecoin address.
 - `/balance`: Check the balance of your Tidecoin address.
 - `/tip`: Tip another user.
 - `/withdraw`: Withdraw to your wallet.
+
+#### Coming Soon
+- airdrop
+- tipping multiple users
+
+
 
 ### Transaction Fees
 
