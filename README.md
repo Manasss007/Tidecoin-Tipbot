@@ -135,12 +135,6 @@ npm install "package.json"
 - `/tip`: Tip another user.
 - `/withdraw`: Withdraw to your wallet.
 
-#### Coming Soon
-- airdrop
-- tipping multiple users
-
-
-
 ### Transaction Fees
 
 - Each transaction requires a fee for **the transaction**
@@ -150,5 +144,7 @@ donations are always appreciated :)
 
 Donations TDC: `TRhvQkHW429zZsnuNDvFuctQWPN6iWXsTa`
 
+### NOTE
+I will not continue on this project. 
 
 
